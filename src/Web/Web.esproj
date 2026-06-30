@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.VisualStudio.JavaScript.Sdk/1.0.1738743">
+  <PropertyGroup>
+    <StartupCommand>npm start</StartupCommand>
+    <JavaScriptTestFramework>Jasmine</JavaScriptTestFramework>
+    <ShouldRunBuildScript>false</ShouldRunBuildScript>
+    <BuildOutputFolder>$(MSBuildProjectDirectory)\dist\Web\browser\</BuildOutputFolder>
+  </PropertyGroup>
+  <ItemGroup>
+    <TypeScriptConfiguration Remove="**\jsconfig.json" />
+    <TypeScriptConfiguration Remove="**\tsconfig.json" />
+  </ItemGroup>
+</Project>

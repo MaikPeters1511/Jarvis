@@ -1,0 +1,24 @@
+<Project Sdk="Aspire.AppHost.Sdk/13.4.6">
+
+  <ItemGroup>
+    <ProjectReference Include="..\ApiService\ApiService.csproj" />
+    <ProjectReference Include="..\ServiceDefaults\ServiceDefaults.csproj" IsAspireProjectResource="false" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Aspire.Hosting.AppHost" Version="13.4.6" />
+    <PackageReference Include="Aspire.Hosting.JavaScript" Version="13.4.6" />
+    <PackageReference Include="Aspire.Hosting.PostgreSQL" Version="13.4.6" />
+    <PackageReference Include="Aspire.Hosting.Python" Version="13.4.6" />
+    <PackageReference Include="CommunityToolkit.Aspire.Hosting.Ollama" Version="13.4.0" />
+  </ItemGroup>
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <UserSecretsId>a5495239-42d6-4eab-ac53-06275fe27207</UserSecretsId>
+  </PropertyGroup>
+
+</Project>
