@@ -13,7 +13,7 @@ type Tab = 'voice' | 'llm' | 'wake' | 'stt' | 'appearance';
     <div class="container mx-auto p-4 md:p-8 max-w-5xl">
       <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
         <div>
-          <h1 class="text-3xl font-extrabold tracking-tight glow-text bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">Einstellungen</h1>
+          <h1 class="text-3xl font-display font-extrabold tracking-tight glow-text gradient-text">Einstellungen</h1>
           <p class="text-sm opacity-60 mt-1">Konfiguriere deinen Sprachassistenten Javis nach deinen Wünschen.</p>
         </div>
       </div>
@@ -22,15 +22,22 @@ type Tab = 'voice' | 'llm' | 'wake' | 'stt' | 'appearance';
         <!-- Sidebar Navigation (Tabs) -->
         <div class="md:col-span-3 flex flex-row md:flex-col gap-1 overflow-x-auto md:overflow-x-visible pb-2 md:pb-0 scrollbar-none">
           @for (t of tabsList; track t.id) {
-            <button 
-              (click)="tab.set(t.id)" 
+            <button
+              (click)="tab.set(t.id)"
               class="flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-semibold transition-all duration-300 whitespace-nowrap md:w-full"
-              [class.bg-primary]="tab() === t.id"
-              [class.text-primary-content]="tab() === t.id"
-              [class.glass-card]="tab() !== t.id"
-              [class.hover:bg-base-200]="tab() !== t.id"
+              [class]="tab() === t.id
+                ? 'bg-primary text-primary-content shadow-lg shadow-primary/20'
+                : 'glass-card hover:bg-base-200'"
             >
-              <span>{{ t.icon }}</span>
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                @switch (t.id) {
+                  @case ('voice') { <path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" x2="12" y1="19" y2="22"/> }
+                  @case ('llm') { <path d="M12 2a4.5 4.5 0 0 0-4.5 4.5v.34a3.5 3.5 0 0 0-1.68 6.4A3 3 0 0 0 8 18h8a3 3 0 0 0 2.18-4.76 3.5 3.5 0 0 0-1.68-6.4V6.5A4.5 4.5 0 0 0 12 2Z"/><path d="M9 18v1a3 3 0 0 0 6 0v-1"/> }
+                  @case ('stt') { <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><line x1="9" x2="15" y1="13" y2="13"/><line x1="9" x2="15" y1="17" y2="17"/> }
+                  @case ('wake') { <path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/> }
+                  @case ('appearance') { <circle cx="13.5" cy="6.5" r=".5"/><circle cx="17.5" cy="10.5" r=".5"/><circle cx="8.5" cy="7.5" r=".5"/><circle cx="6.5" cy="12.5" r=".5"/><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.926 0 1.648-.746 1.648-1.688 0-.437-.18-.835-.437-1.125-.29-.289-.438-.652-.438-1.125a1.64 1.64 0 0 1 1.668-1.668h1.996c3.051 0 5.555-2.503 5.555-5.554C22 6.012 17.461 2 12 2Z"/> }
+                }
+              </svg>
               <span>{{ t.label }}</span>
             </button>
           }
@@ -42,7 +49,7 @@ type Tab = 'voice' | 'llm' | 'wake' | 'stt' | 'appearance';
             @case ('voice') {
               <div class="flex flex-col gap-6">
                 <div>
-                  <h2 class="text-xl font-bold mb-1">Referenz-Stimme für Voice Cloning</h2>
+                  <h2 class="text-xl font-display font-bold mb-1">Referenz-Stimme für Voice Cloning</h2>
                   <p class="text-xs opacity-60">Lade eine Audio-Datei hoch (3+ Sek., WAV/MP3), damit Qwen3-TTS deine Stimme klonen kann.</p>
                 </div>
 
@@ -52,8 +59,9 @@ type Tab = 'voice' | 'llm' | 'wake' | 'stt' | 'appearance';
                          [(ngModel)]="newVoice.name" />
                   <input type="text" placeholder="Sprache (Auto/German/English)" class="input input-bordered w-full glass-card border-base-content/10 focus:border-primary"
                          [(ngModel)]="newVoice.language" />
-                  <label class="btn btn-outline btn-primary glass-card border-primary/20 hover:border-primary cursor-pointer">
-                    📁 Datei wählen
+                  <label class="btn btn-outline btn-primary glass-card border-primary/20 hover:border-primary cursor-pointer gap-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" x2="12" y1="3" y2="15"/></svg>
+                    Datei wählen
                     <input type="file" accept="audio/*" class="hidden" (change)="onFileSelected($event)" />
                   </label>
                 </div>
@@ -178,7 +186,7 @@ type Tab = 'voice' | 'llm' | 'wake' | 'stt' | 'appearance';
             @case ('llm') {
               <div class="flex flex-col gap-6">
                 <div>
-                  <h2 class="text-xl font-bold mb-1">LLM-Einstellungen (Gemma 3 12B)</h2>
+                  <h2 class="text-xl font-display font-bold mb-1">LLM-Einstellungen (Gemma 3 12B)</h2>
                   <p class="text-xs opacity-60">Passe das Verhalten, die Prompt-Struktur und die Parameter des lokalen Sprachmodells an.</p>
                 </div>
 
@@ -227,7 +235,7 @@ type Tab = 'voice' | 'llm' | 'wake' | 'stt' | 'appearance';
             @case ('stt') {
               <div class="flex flex-col gap-6">
                 <div>
-                  <h2 class="text-xl font-bold mb-1">Speech-to-Text (Whisper Base)</h2>
+                  <h2 class="text-xl font-display font-bold mb-1">Speech-to-Text (Whisper Base)</h2>
                   <p class="text-xs opacity-60">Passe die Spracherkennung und Stille-Erkennung an, falls du zu schnell abgeschnitten wirst oder Javis dich nicht versteht.</p>
                 </div>
 
@@ -288,7 +296,7 @@ type Tab = 'voice' | 'llm' | 'wake' | 'stt' | 'appearance';
             @case ('wake') {
               <div class="flex flex-col gap-6">
                 <div>
-                  <h2 class="text-xl font-bold mb-1">Wake-Word Erkennung (openWakeWord)</h2>
+                  <h2 class="text-xl font-display font-bold mb-1">Wake-Word Erkennung (openWakeWord)</h2>
                   <p class="text-xs opacity-60">Optimiere die Erkennungsempfindlichkeit, wenn du Javis mit deiner Stimme aktivierst.</p>
                 </div>
 
@@ -316,7 +324,7 @@ type Tab = 'voice' | 'llm' | 'wake' | 'stt' | 'appearance';
                 </div>
 
                 <div class="alert alert-info bg-info/10 text-info border-info/20 text-xs rounded-2xl flex items-start gap-3 mt-4">
-                  <span class="text-lg">ℹ️</span>
+                  <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
                   <div>
                     <span class="font-bold">Eigenes Wake-Word gefällig?</span><br>
                     <span>
@@ -330,7 +338,7 @@ type Tab = 'voice' | 'llm' | 'wake' | 'stt' | 'appearance';
             @case ('appearance') {
               <div class="flex flex-col gap-6">
                 <div>
-                  <h2 class="text-xl font-bold mb-1">Farbschema & Design</h2>
+                  <h2 class="text-xl font-display font-bold mb-1">Farbschema & Design</h2>
                   <p class="text-xs opacity-60">Passe das visuelle Design der Benutzeroberfläche an.</p>
                 </div>
 
@@ -359,12 +367,12 @@ export class SettingsComponent implements OnInit {
   private readonly api = inject(JarvisApiService);
   readonly theme = inject(ThemeService);
 
-  readonly tabsList: { id: Tab; label: string; icon: string }[] = [
-    { id: 'voice', label: 'Stimme', icon: '🎙️' },
-    { id: 'llm', label: 'LLM (Gemma)', icon: '🧠' },
-    { id: 'stt', label: 'STT (Whisper)', icon: '📝' },
-    { id: 'wake', label: 'Wake-Word', icon: '👂' },
-    { id: 'appearance', label: 'Aussehen', icon: '🎨' }
+  readonly tabsList: { id: Tab; label: string }[] = [
+    { id: 'voice', label: 'Stimme' },
+    { id: 'llm', label: 'LLM (Gemma)' },
+    { id: 'stt', label: 'STT (Whisper)' },
+    { id: 'wake', label: 'Wake-Word' },
+    { id: 'appearance', label: 'Aussehen' }
   ];
 
   readonly tab = signal<Tab>('voice');
